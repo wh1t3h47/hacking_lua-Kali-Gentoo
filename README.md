@@ -1,3 +1,10 @@
+
+<img src="./IMG-20250130-WA0043.jpg" />
+<img src="./IMG-20250130-WA0030.jpg" />
+<img src="./IMG-20250130-WA0029.jpg" />
+<img src="./IMG-20250130-WA0028.jpg" />
+<img src="./IMG-20250130-WA0019.jpg" />
+
 Dependencies:
 Install rofi, xsel, xrandr, flameshot
 

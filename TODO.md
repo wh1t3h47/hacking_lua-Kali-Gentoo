@@ -29,4 +29,16 @@ BUG: Alt tab plugin doesn't work with focus, it doesn't notify that focus has be
 shortcut: Make window ontop, floating and sticky in all desktops
 
 change background, maybe on a time basis, or by workspace
+Add smiles for CPU usage:
+
+- 0 to 10%: `¯\_(ツ)_/¯`
+- 10% to 20%: `^-^`
+- 20% to 30%: `^~^`
+- 30% to 40%: `( ._.)`
+- 40% to 50%: `ʘ‿ʘ`
+- 50% to 60%: `( ͠° ͟ʖ ͡°)`
+- 60% to 70%: `("-.-)`
+- 70% to 80%: `(╬ಠ益ಠ)`
+- 80% to 90%: `(╯°□°)╯︵ ┻━┻`
+- 90% to  100%: `( ง •̀_•́)ง ╦̵̵̿╤────⋇ᗕ ⁍ ⁍ ⁍ ⁍`
 
