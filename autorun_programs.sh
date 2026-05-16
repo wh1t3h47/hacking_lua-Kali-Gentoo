@@ -1,1 +1,6 @@
-#!/usr/bin/env bash\nsource run.sh
+#!/usr/bin/env bash
+
+source run.sh
+
+run firefox
+

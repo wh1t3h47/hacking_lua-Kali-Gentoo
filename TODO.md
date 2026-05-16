@@ -24,3 +24,9 @@ enable super fan shortcut
 
 brightness...
 
+BUG: Alt tab plugin doesn't work with focus, it doesn't notify that focus has been changed, which makes the focused client semi transparent
+
+shortcut: Make window ontop, floating and sticky in all desktops
+
+change background, maybe on a time basis, or by workspace
+

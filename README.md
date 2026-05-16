@@ -28,6 +28,12 @@ luarocks --lua-version 5.3 install lain
 luarocks --lua-version 5.3 install https://raw.githubusercontent.com/cabra-lat/awesome-freedesktop/refs/heads/patch-1/awesome-freedesktop-scm-1.rockspec
 ```
 
+Edit your keyboard layout in `autorun_daemons.sh`
+
+```bash
+setxkbmap br
+```
+
 
 Daemons: It works for kali and gentoo, but a few things are executed at startup:
 
@@ -35,6 +41,7 @@ Daemons: It works for kali and gentoo, but a few things are executed at startup:
 - Wireplumber for sound (it is needed for sddm, other dms might not need it);
 - NetworkManager for wifi;
 - volumeicon for music;
+- xcompmgr for transparent windows;
 - xiccd for color correction (colord).
 
 Autorun idea stolen from https://wiki.archlinux.org/title/Awesome

@@ -137,6 +137,14 @@ local vi_focus     = false -- vi-like client focus https://github.com/lcpz/aweso
 local cycle_prev   = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "nvim"
 local browser      = "firefox"
+local pip_names = {
+	"Picture.in.Picture",
+	"PIP",
+	"Picture.in.picture",
+	"PiP",
+	"Picture-in-Picture"
+}
+
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "W3B BR0WSER", "C0D1NG", "N0T3S", "T3RM1NAL", "1337 STUFF" }
@@ -175,13 +183,18 @@ lain.layout.cascade.tile.extra_padding = 5
 lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
 
--- does not work opacity on unfocus
+-- opacity on unfocus
 client.connect_signal("focus", function(c)
                               c.border_color = beautiful.border_focus
                               c.opacity = 1
 			      --naughty.notify({ text = "Foco na janela: " .. c.class })
                            end)
 client.connect_signal("unfocus", function(c)
+				-- Make PIP video always opaque
+				for _, pattern in ipairs(pip_names) do
+					if c.name and c.name:match(pattern) then return
+					end
+				end
                                 c.border_color = beautiful.border_normal
                                 c.opacity = 0.7
 				--naughty.notify({ text = "Foco na janela: " .. c.class })
@@ -542,6 +555,13 @@ globalkeys = mytable.join(
     -- awful.key({ modkey, }, "z", function() awful.screen.focused().quake:toggle() end,
     --    { description = "dropdown application", group = "launcher" }),
 
+    awful.key({ modkey, "Shift" }, "t", function ()
+		    local c = client.focus
+		    if c then
+		    c.sticky = not c.sticky
+		    end
+		    end, {description = "toggle sticky client", group = "client"}),
+
     -- Widgets popups
     awful.key({ altkey, }, "c", function() if beautiful.cal then beautiful.cal.show(7) end end,
         { description = "show calendar", group = "widgets" }),
@@ -659,14 +679,14 @@ globalkeys = mytable.join(
     -- alternatively use rofi, a dmenu-like application with more features
     -- check https://github.com/DaveDavenport/rofi for more details
 
-    awful.key({ modkey }, "p", function ()
+    awful.key({ modkey }, "r", function ()
             os.execute(string.format("rofi -show %s -theme %s",
             'run', 'dmenu'))
         end,
         {description = "show rofi", group = "launcher"}),
 
     -- Prompt
-    awful.key({ modkey }, "r", function() awful.screen.focused().mypromptbox:run() end,
+    awful.key({ modkey }, "p", function() awful.screen.focused().mypromptbox:run() end,
         { description = "run prompt", group = "launcher" }),
 
     awful.key({ modkey }, "x",
@@ -873,6 +893,35 @@ client.connect_signal("manage", function(c)
         and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
+    end
+
+    -- Put Video PIP (youtube, firefox, etc) on top, opaque and sticky
+
+    for _, pattern in ipairs(pip_names) do
+        if c.name and c.name:match(pattern) then
+            c.sticky = true
+            c.ontop = true
+	    if client.focus then
+                client.focus:emit_signal("focus")
+            end
+            c.opacity = 1.0
+	    c:lower()
+            break
+        end
+    end
+end)
+
+client.connect_signal("request::activate", function(c, context, hints)
+    -- avoids pip getting auto focus when desktop is empty and we are
+    -- changing desktops with mod key
+    for _, pattern in ipairs(pip_names) do
+        if c.name and c.name:match(pattern) then
+            if context == "autofocus.check_focus" then
+                client.focus = nil
+		return
+            end
+            return
+        end
     end
 end)
 
